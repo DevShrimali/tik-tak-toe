@@ -363,70 +363,78 @@ export default function TicTacToe() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <Card className="shadow-lg">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Tic Tac Toe</CardTitle>
-        </CardHeader>
-        <CardContent>
+    <div className="w-full max-w-4xl mx-auto p-2 md:p-4 lg:max-h-[95vh] flex flex-col justify-center relative">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_0,_transparent_50%)]" />
+      <div className="relative z-10 text-zinc-100 flex-shrink flex-grow-0 w-full">
+        <header className="text-center pt-3 pb-4">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50 drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">
+            Tic Tac Toe
+          </h1>
+        </header>
+        <div className="p-2 md:p-4 w-full">
           <Tabs defaultValue="game" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="game">Game</TabsTrigger>
-              <TabsTrigger value="scores">
-                <Trophy className="w-4 h-4 mr-2" />
-                High Scores
+            <TabsList className="grid w-full max-w-[200px] mx-auto grid-cols-2 mb-4 h-10 bg-zinc-900/60 p-1 rounded-xl border border-white/5 shadow-inner">
+              <TabsTrigger value="game" className="rounded-lg text-sm font-medium data-[state=active]:bg-white/10 data-[state=active]:text-white transition-all">Game</TabsTrigger>
+              <TabsTrigger value="scores" className="rounded-lg text-sm font-medium data-[state=active]:bg-white/10 data-[state=active]:text-white transition-all">
+                <Trophy className="w-3.5 h-3.5 mr-1.5" />
+                Scores
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="game" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2">
-                  <GameBoard board={board} onCellClick={handleMove} winningLine={winningLine} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2 flex flex-col items-center justify-center">
+                  <div className="w-full flex justify-center scale-90 md:scale-95 origin-center">
+                    <GameBoard board={board} onCellClick={handleMove} winningLine={winningLine} />
+                  </div>
 
                   {gameOver && (
-                    <div className="mt-4 p-4 text-center bg-gray-100 dark:bg-gray-800 rounded-lg">
+                    <div className="mt-2 p-3 w-full max-w-[400px] text-center bg-zinc-900/40 backdrop-blur-md border border-white/10 rounded-xl shadow-[0_0_20px_rgba(0,0,0,0.2)]">
                       {winner ? (
-                        <p className="text-xl font-bold flex items-center justify-center">
+                        <p className="text-lg font-bold flex items-center justify-center mb-1">
                           {winner === PLAYER_X ? (
                             <span className="flex items-center">
-                              Player 1 <X className="w-5 h-5 mx-1 text-blue-600 dark:text-blue-400" /> wins!
+                              Player 1 <X className="w-4 h-4 mx-2 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" /> wins!
                             </span>
                           ) : gameMode === GAME_MODES.TWO_PLAYER ? (
                             <span className="flex items-center">
-                              Player 2 <Circle className="w-5 h-5 mx-1 text-red-600 dark:text-red-400" /> wins!
+                              Player 2 <Circle className="w-4 h-4 mx-2 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]" /> wins!
                             </span>
                           ) : (
                             <span className="flex items-center">
-                              Computer <Circle className="w-5 h-5 mx-1 text-red-600 dark:text-red-400" /> ({difficulty})
+                              Computer <Circle className="w-4 h-4 mx-2 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]" /> ({difficulty})
                               wins!
                             </span>
                           )}
                         </p>
                       ) : (
-                        <p className="text-xl font-bold">It's a draw!</p>
+                        <p className="text-lg font-bold text-zinc-300 mb-1">It's a draw!</p>
                       )}
-                      <Button onClick={resetGame} className="mt-2" variant="outline">
-                        <RefreshCw className="w-4 h-4 mr-2" />
+                      <Button onClick={resetGame} className="mt-2 bg-white hover:bg-zinc-200 text-black font-semibold rounded-lg px-4 py-2 text-sm transition-transform active:scale-95" size="sm">
+                        <RefreshCw className="w-3.5 h-3.5 mr-2" />
                         Play Again
                       </Button>
                     </div>
                   )}
 
                   {!gameOver && (
-                    <div className="mt-4 p-4 text-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-                      <p className="text-xl font-bold flex items-center justify-center">
-                        Current Player:{" "}
+                    <div className="mt-2 p-2 w-full max-w-[400px] text-center bg-zinc-900/30 border border-white/5 rounded-xl flex items-center justify-center gap-2">
+                      <p className="text-xs font-medium text-zinc-400 uppercase tracking-widest">
+                        Turn
+                      </p>
+                      <span className="h-4 w-px bg-white/10 mx-1"></span>
+                      <p className="text-sm font-bold flex items-center m-0">
                         {currentPlayer === PLAYER_X ? (
-                          <span className="flex items-center ml-2">
-                            Player 1 <X className="w-5 h-5 ml-1 text-blue-600 dark:text-blue-400" />
+                          <span className="flex items-center">
+                            Player 1 <X className="w-4 h-4 ml-1.5 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
                           </span>
                         ) : gameMode === GAME_MODES.TWO_PLAYER ? (
-                          <span className="flex items-center ml-2">
-                            Player 2 <Circle className="w-5 h-5 ml-1 text-red-600 dark:text-red-400" />
+                          <span className="flex items-center">
+                            Player 2 <Circle className="w-4 h-4 ml-1.5 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
                           </span>
                         ) : (
-                          <span className="flex items-center ml-2">
-                            Computer <Circle className="w-5 h-5 ml-1 text-red-600 dark:text-red-400" />
+                          <span className="flex items-center">
+                            Computer <Circle className="w-4 h-4 ml-1.5 text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
                           </span>
                         )}
                       </p>
@@ -434,81 +442,81 @@ export default function TicTacToe() {
                   )}
                 </div>
 
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Game Mode</h3>
-                    <RadioGroup value={gameMode} onValueChange={handleGameModeChange} className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value={GAME_MODES.TWO_PLAYER} id="two-player" />
-                        <Label htmlFor="two-player" className="flex items-center">
-                          <User className="w-4 h-4 mr-2" />
-                          Two Player
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <h3 className="text-xs uppercase tracking-widest font-semibold text-zinc-500">Game Mode</h3>
+                    <RadioGroup value={gameMode} onValueChange={handleGameModeChange} className="grid grid-cols-2 gap-2">
+                      <div>
+                        <RadioGroupItem value={GAME_MODES.TWO_PLAYER} id="two-player" className="peer sr-only" />
+                        <Label htmlFor="two-player" className="flex flex-col items-center justify-center p-2.5 border border-white/5 rounded-xl bg-zinc-900/40 peer-data-[state=checked]:bg-white/10 peer-data-[state=checked]:border-white/20 hover:bg-zinc-800/50 cursor-pointer transition-all">
+                          <User className="w-5 h-5 mb-1.5 text-zinc-400 peer-data-[state=checked]:text-white" />
+                          <span className="font-medium text-xs text-zinc-400 peer-data-[state=checked]:text-white">2 Player</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value={GAME_MODES.VS_COMPUTER} id="vs-computer" />
-                        <Label htmlFor="vs-computer" className="flex items-center">
-                          <Cpu className="w-4 h-4 mr-2" />
-                          vs Computer
+                      <div>
+                        <RadioGroupItem value={GAME_MODES.VS_COMPUTER} id="vs-computer" className="peer sr-only" />
+                        <Label htmlFor="vs-computer" className="flex flex-col items-center justify-center p-2.5 border border-white/5 rounded-xl bg-zinc-900/40 peer-data-[state=checked]:bg-white/10 peer-data-[state=checked]:border-white/20 hover:bg-zinc-800/50 cursor-pointer transition-all">
+                          <Cpu className="w-5 h-5 mb-1.5 text-zinc-400 peer-data-[state=checked]:text-white" />
+                          <span className="font-medium text-xs text-zinc-400 peer-data-[state=checked]:text-white">vs CPU</span>
                         </Label>
                       </div>
                     </RadioGroup>
                   </div>
 
                   {gameMode === GAME_MODES.VS_COMPUTER && (
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Difficulty</h3>
-                      <RadioGroup value={difficulty} onValueChange={handleDifficultyChange} className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value={DIFFICULTY.EASY} id="easy" />
-                          <Label htmlFor="easy">Easy</Label>
+                    <div className="space-y-2 animate-in slide-in-from-top-4 fade-in duration-300">
+                      <h3 className="text-xs uppercase tracking-widest font-semibold text-zinc-500">Difficulty</h3>
+                      <RadioGroup value={difficulty} onValueChange={handleDifficultyChange} className="grid grid-cols-3 gap-2">
+                        <div>
+                          <RadioGroupItem value={DIFFICULTY.EASY} id="easy" className="peer sr-only" />
+                          <Label htmlFor="easy" className="flex items-center justify-center py-2 text-[10px] uppercase tracking-wider font-semibold border border-white/5 rounded-lg bg-zinc-900/40 peer-data-[state=checked]:bg-emerald-500/20 peer-data-[state=checked]:border-emerald-500/50 peer-data-[state=checked]:text-emerald-400 text-zinc-400 hover:bg-zinc-800/50 cursor-pointer transition-all">Easy</Label>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value={DIFFICULTY.HARD} id="hard" />
-                          <Label htmlFor="hard">Hard</Label>
+                        <div>
+                          <RadioGroupItem value={DIFFICULTY.HARD} id="hard" className="peer sr-only" />
+                          <Label htmlFor="hard" className="flex items-center justify-center py-2 text-[10px] uppercase tracking-wider font-semibold border border-white/5 rounded-lg bg-zinc-900/40 peer-data-[state=checked]:bg-amber-500/20 peer-data-[state=checked]:border-amber-500/50 peer-data-[state=checked]:text-amber-400 text-zinc-400 hover:bg-zinc-800/50 cursor-pointer transition-all">Hard</Label>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value={DIFFICULTY.IMPOSSIBLE} id="impossible" />
-                          <Label htmlFor="impossible">Impossible</Label>
+                        <div>
+                          <RadioGroupItem value={DIFFICULTY.IMPOSSIBLE} id="impossible" className="peer sr-only" />
+                          <Label htmlFor="impossible" className="flex items-center justify-center py-2 text-[10px] uppercase tracking-wider font-semibold border border-white/5 rounded-lg bg-zinc-900/40 peer-data-[state=checked]:bg-rose-500/20 peer-data-[state=checked]:border-rose-500/50 peer-data-[state=checked]:text-rose-400 text-zinc-400 hover:bg-zinc-800/50 cursor-pointer transition-all">Imposs</Label>
                         </div>
                       </RadioGroup>
                     </div>
                   )}
 
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-medium">Current Score</h3>
+                  <div className="space-y-3 pt-3 border-t border-white/5">
+                    <h3 className="text-xs uppercase tracking-widest font-semibold text-zinc-500">Current Score</h3>
                     <div className="grid grid-cols-2 gap-2 text-center">
-                      <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                        <p className="font-medium flex items-center justify-center">
-                          Player 1 <X className="w-4 h-4 ml-1 text-blue-600 dark:text-blue-400" />
+                      <div className="p-3 bg-zinc-900/40 border border-white/5 rounded-2xl">
+                        <p className="font-medium text-zinc-400 text-xs flex items-center justify-center mb-1">
+                          P1 <X className="w-3 h-3 ml-1 text-cyan-400" />
                         </p>
-                        <p className="text-2xl font-bold">{score.player1}</p>
+                        <p className="text-2xl font-bold text-white tracking-tighter">{score.player1}</p>
                       </div>
-                      <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                        <p className="font-medium flex items-center justify-center">
+                      <div className="p-3 bg-zinc-900/40 border border-white/5 rounded-2xl">
+                        <p className="font-medium text-zinc-400 text-xs flex items-center justify-center mb-1">
                           {gameMode === GAME_MODES.TWO_PLAYER ? (
                             <span className="flex items-center">
-                              Player 2 <Circle className="w-4 h-4 ml-1 text-red-600 dark:text-red-400" />
+                              P2 <Circle className="w-3 h-3 ml-1 text-rose-500" />
                             </span>
                           ) : (
                             <span className="flex items-center">
-                              Computer <Circle className="w-4 h-4 ml-1 text-red-600 dark:text-red-400" />
+                              Comp <Circle className="w-3 h-3 ml-1 text-rose-500" />
                             </span>
                           )}
                         </p>
-                        <p className="text-2xl font-bold">
+                        <p className="text-2xl font-bold text-white tracking-tighter">
                           {gameMode === GAME_MODES.TWO_PLAYER ? score.player2 : score.computer}
                         </p>
                       </div>
-                      <div className="col-span-2 p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                        <p className="font-medium">Draws</p>
-                        <p className="text-2xl font-bold">{score.draws}</p>
+                      <div className="col-span-2 p-2 bg-zinc-900/20 border border-white/5 rounded-xl flex items-center justify-between px-4">
+                        <p className="font-medium text-zinc-400 text-xs uppercase tracking-widest">Draws</p>
+                        <p className="text-xl font-bold text-white">{score.draws}</p>
                       </div>
                     </div>
                   </div>
 
-                  <Button onClick={resetGame} variant="outline" className="w-full">
-                    <RefreshCw className="w-4 h-4 mr-2" />
+                  <Button onClick={resetGame} variant="outline" className="w-full bg-zinc-900/30 border-white/10 hover:bg-white/10 text-zinc-300 py-4 rounded-xl text-sm font-medium transition-all active:scale-95">
+                    <RefreshCw className="w-3.5 h-3.5 mr-2" />
                     Reset Game
                   </Button>
                 </div>
@@ -519,8 +527,8 @@ export default function TicTacToe() {
               <ScoreBoard score={score} gameHistory={gameHistory} onResetScores={resetScores} />
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
